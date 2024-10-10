@@ -5,6 +5,7 @@ def calculate_age(dob):
     today = datetime.today()
     birth_date = datetime.strptime(dob, "%Y-%m-%d")
     age = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
+    
     return age
 
 app = Flask(__name__)
@@ -15,8 +16,9 @@ def index():
         name = request.form['name']
         dob = request.form['dob']
         age = calculate_age(dob)
-        welcome_message = f"Welcome, {name}! You are {age} years old."
-        return render_template('result.html', message=welcome_message)
+        zodiac = get_zodiac_sign(dob)
+        message = f"Hello, {name}! Your age is {age} and your zodiac sign is {zodiac}."
+        return render_template('result.html', message=message)
     return render_template('index.html')
 
 if __name__ == '__main__':
